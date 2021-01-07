@@ -70,11 +70,7 @@ resultat <- antall %>%
   mutate(model = map(data, ~lm(antall_per_ml ~ vann, data = .)),
          result = map(model, tidy)) %>% 
   unnest(result) %>% 
-  select(bakterie, estimate:p.value) %>% 
-  mutate(estimate = round(estimate, 2),
-         std.error = round(std.error, 2),
-         statistic = round(statistic, 2),
-         p.value = round(p.value, 3))
+  select(bakterie, estimate:p.value)
 
 
 ```
@@ -83,7 +79,7 @@ resultat <- antall %>%
 ```{r, resultat, eval=TRUE, echo=FALSE}
 
 resultat  %>% 
-  knitr::kable()
+  knitr::kable(digits = 2)
 
 
 ```

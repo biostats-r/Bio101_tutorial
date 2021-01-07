@@ -13,10 +13,24 @@ runtime: shiny_prerendered
 
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, warning = FALSE)
+knitr::opts_chunk$set(echo = TRUE, message = FALSE)
+#options(dplyr.summarise.inform = FALSE)
+
+```
+
+
+## Introduksjon
+
+Goal of this!
+
+
+## Preparasjon
+
+Load libraries
+
+```{r load-libs, include=FALSE}
 library("learnr")
 library("tidyverse")
-library("ggplot2")
 library("broom")
 
 ```
@@ -37,7 +51,7 @@ library("broom")
 
 - Vi bruker programvaren R til å se på data, visualisere og analysere data i dette kurset.
 - For å kunne gjøre dette må vi først lese data in i R.
-- For dette bruker vi funksjonen ```read_delim()```
+- For dette bruker vi funksjonen `read_delim()`
 
 ```{r read_in_data, eval=FALSE, echo=TRUE}
 
@@ -214,7 +228,7 @@ ggplot(, aes(x = , y = )) +
 ## Hvordan tester jeg forskjell mellom grupper?
 
 Et ofte stillt spørsmål i økologi er om det er en forskjell mellom grupper.
-For eksempel er biller fra kog A større en biller fra skog B.
+For eksempel er biller fra skog A større en biller fra skog B.
 
 Hvordan tester man dette:
 Forklar veldig enkelt hva en ANOVA er
