@@ -3,12 +3,6 @@ title: "Bio101_Introduksjon"
 output: learnr::tutorial
 runtime: shiny_prerendered
 
-# output:
-#   bookdown::html_document2:
-#     highlight: tango
-#     toc: true
-#     toc_float: true
-#     css: ../css/style-chapters.css
 --- 
 
 
@@ -21,14 +15,35 @@ knitr::opts_chunk$set(echo = TRUE, message = FALSE)
 
 ## Introduksjon
 
-Goal of this!
+Dette er en introduksjon til praksis del XXX i Bio101 Organismebiologi 1 ved UiB.
+
+I denne tutorial skal vi vise deg forsjkellige steg i data håntering, analyse og visualisering.
+Vi skal forklare deg hvordan et dataset er bygget opp, hvordan man leser data inn i R, beregener gjennomsnitt og varians, tester forjskell mellom grupper og lager plot.
+Deretter skal vi også diskutere hva som er viktig når du skriver en rapport og presenterer vitenskaplige resultater.
+
+Vi skal jobbe med programvaren R, men ikke vær redd, vi skal forklare et steg om gangen og vi har også mer informasjon om R, hvordan man installerer R, og de første stegene i R som skal hjelpe deg.
 
 
 ## Preparasjon
 
-Load libraries
+Vi skal jobbe med programvaren R.
+Hvis du aldri har brukt R før, finner du en introduksjon til R her: https://biostats.w.uib.no/up-in-the-r-2/introduction-to-r/
 
-```{r load-libs, include=FALSE}
+I R bruker vi forskjellige pakker som inneholder nyttige og nødvendige funksjoner.
+Disse må vi først laste inn for at vi kan bruke funksjonene.
+Hvis du aldri har brukt disse pakkene må du først installere dem.
+Sånn installerer du en pakke:
+
+```{r install-package, eval = FALSE, echo=TRUE}
+install.packages("tidyverse")
+
+```
+
+Hvis dette er ny for deg, skjekk denne instruksjonen her: link
+
+I denne tutorial skal vi bruke pakkene **learnr**, **tidyverse** og **broom** og vi laster disse in med funksjonen `library()`:
+
+```{r load-libs, eval = TRUE, echo=TRUE}
 library("learnr")
 library("tidyverse")
 library("broom")
@@ -37,57 +52,148 @@ library("broom")
 
 ## Organisajon av en data fil
 
-- Data er organisert i tabeller.
-- Bra strategi å bruke csv eller txt format, fordi alle kan åpne disse filene uten å ha noe spesifik programvare (open source).
+Vi skal først snakke om organsasjon av data.
 
-- en tabell er organisert i kolloner og rad
-- Toppen av en kollone viser navn til variablene
-- radene viser en observasjon, for eksempel målingene på et individ av en bakterie, et tre, en bille.
+Når data blir samlet inn må disse digitaliseres i en tabell med kolonner og rad.
+Vanligvis bruker man en programvare som Excel eller lignende for denne jobben.
+En god metode er å lagre data i en format som .csv eller .txt, fordi disse krever ikke en spesifikk programvare til å åpne filene og derfor er dataene også tilgjengelig til andre.
+Tilgjengelighet av data er et viktig grunnprinsipp av **Open and reproducible science**.
 
+Det er lurt å tenke gjennom hvordan dataene skal organiseres.
+Det mest vanlige er at toppen av kolonnene viser navn til variablene og hver enkel rad representerer en obsjervasjon.
+En observasjon kan for eksempel være en måling for et individ, en observasjon av en type bakterie, eller en måling for et tre.
 
+La oss se på et dataset som inneholder antall bakterier per ml for tre forskjellige vann i Bergen.
+Den første rad viser navn til de tre kolonnene: **vann**, **bakterie** og **antall_per_ml**.
+De neste radene inneholder data.
+Det kan enten være tekst som de første to kolonnene eller tall.
 
+```{r read_in_data_secretly, eval=TRUE, echo=FALSE}
+
+antall <- read_delim(file = "data/Antall_bakterier.csv", delim = ",")
+```
+
+```{r display-data, eval=TRUE, echo=FALSE}
+
+antall
+```
 
 ## Hvordan laster jeg et dataset inn i R?
 
-- Vi bruker programvaren R til å se på data, visualisere og analysere data i dette kurset.
-- For å kunne gjøre dette må vi først lese data in i R.
-- For dette bruker vi funksjonen `read_delim()`
+For å kunne jobbe med data i R, må vi først laste inn datasettet.
+Dette gjør vi med å bruke vi funksjonen `read_delim()`.
+Det første argument i denne funksjonen er `file`  og definerer hvor dataene er.
+Det er ofte lurt å lage en mappe som heter **data** eller noe lignende hvor du lager dataene dine.
+Det neste argumentet er `delim` og definerer hvilket tegn som ble brukt til å separerer dataene.
+I dette tilfelle er det en komma.
+Men det kan også være et annet tegn som semi-kolon (;) eller tab osw.
 
 ```{r read_in_data, eval=FALSE, echo=TRUE}
 
 read_delim(file = "data/filename.csv", delim = ",")
 ```
 
-Nå prøver vi med et riktig dataset:
+La oss prøver med et riktig datasett som heter **Antall_bakterier.csv** og ligger i en mappe **data**.
 
 ```{r read_in_data2, eval=TRUE, echo=TRUE}
 antall <- read_delim(file = "data/Antall_bakterier.csv", delim = ",")
 
 ```
 
+Hvis vi nå ser i **Environment**, så vil vi finne et datasett som heter antall.
 
-## Beskrive og oppsumere data?
+```{r environment, eval=TRUE, echo=FALSE}
 
-- Et første steg i data analyse er ofte å beskrive data.
-- For dette bruker vi gjennomsnitt og et mål av variabilitet
+knitr::include_graphics("pics/environment.png")
+```
+
+
+## Deskriptiv statistikk
+
+Et første steg er ofte å beskrive dataene eller oppsummere dataene.
+Dette kalles for **deskriptiv statistikk**.
+
+For dette bruker vi to forskjellige verdier: **gjennomsnitt** og **variabilitet**.
 
 
 ### Hva er gjennomsnitt?
 
-- Gjennomsnitt er ...
+**Gjennomsnitt** beskriver middelverdien av en variable altså den mest typiske verdien for en mengde med tall.
+Gjennomsnitt beregnes med å summere alle verdiene av en variable og dele med antall verdier.
+
+La oss si vi har mange fisker med forskjellig kroppslengde.
+Nå deler vi disse forskjellige lengdene i lengde klasser og i et histogramm kan vi vise alle lengde klassene på x-aksen og antall, altså hvor mange ganger en hvis lengde forekommer på y-aksen.
+
+
+```{r example_data, eval=TRUE, echo=FALSE}
+
+dat <- tibble(dataset = c(rep("data1", 100), rep("data2", 100)),
+              var = c(rnorm(n = 100, mean = 15, sd = 1), rnorm(n = 100, mean = 15, sd = 4)))
+
+ggplot(dat, aes(x = var)) +
+  geom_histogram() +
+  geom_vline(xintercept = 15, colour = "red", linetype = "dashed") +
+  labs(x = "Kroppslengde. i cm", y = "Antall verdier per størrelse") +
+  theme_minimal()
+  
+
+```
+
+Hvis vi vil beregne gjennomsnitt så teller vi alle lengdene tilsammen og deler med antall fisker.
+I dette tilfelle er gjennomsnitt 15 og vises med den røde streken i figuren.
+
+
+Formelen for gjennomsnitt er:
+y = (x~1~ + x~2~ + x~3~ + ... + x~n~) / n
+
+*x~1~* og *x~2~* osw er forskjellige tall fra en variable, for eksempel de forskjellige lengdene fra fiskene.
+*x~n~* betyr at det kan være n antall størrelser.
+Og *n* er antall fisker.
 
 Hvis du vil vite mer om gjennomsnitt kan du se denne video:
-- link til video
+https://biostats.w.uib.no/gjennomsnitt/
+
 
 ### Standard avvik og standard feil
 
-- Variabilitet er...
+Gjennomsnitt i seg selv er ikke nok til å beskrive et datasett.
+Her er to datasett med kroppslengder av fisker som begge har gjennomsnitts lengden 15 cm.
+Vi kan se veldig tydelig at fordelingen av dataene, altså antall lengde verdier i hver klasse er veldig forskjellig.
+I det første datasettet har vi få lengde klasser med mange verdier (tett historamm), mens i det andre datasettet har vi mange lengder klasser med få verdier (brei histogramm).
+Denne spredningen i data kalles standardavviket og gir verdienes gjennomsnittlige avstand fra gjennomsnittet.
+
+```{r variability_data, eval=TRUE, echo=FALSE}
+
+ggplot(dat, aes(x = var)) +
+  geom_histogram() +
+  geom_vline(xintercept = 15, colour = "red", linetype = "dashed") +
+  labs(x = "Størrelse i cm", y = "Antall verdier per størrelse") +
+  facet_wrap(~ dataset) +
+  theme_minimal()
+  
+
+```
+
+
+Standard avvik beregnes med å summere kvadratene av differanse mellom kroppslengden av hver fisk og gjennomsnitt og dele det med antall fisker og til slutt tar vi kvadratroten av alt.
+
+Formelen for standard avvik er:
+sd = sqrt([(x~1~ - y)^2^ + (x~2~ - y)^2^ + (x~3~ - y)^2^ + ... + (x~n~ - y)^2^] / n)
+
+*x~1~* og *x~2~* osw er forskjellige tall fra en variable, for eksempel de forskjellige lengdene fra fiskene.
+*x~n~* betyr at det kan være n antall størrelser.
+*y* er gjennomsnitt og *n* er antall fisker.
+
+
+
+
 - Forskjell mellom standard avvik og standard feil.
 
-Hvis du vil vite mer om variabilitet, standardfeil og avvik kan du se denne video:
-- Link til video
 
+Hvis du vil vite mer om gjennomsnitt kan du se denne video:
+https://biostats.w.uib.no/gjennomsnitt/
 
+### Eksempel
 La oss prøve nå:
 hva betyr group_by og summarise
 bruk round() for å ...
