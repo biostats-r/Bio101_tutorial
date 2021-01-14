@@ -2,7 +2,7 @@
 title: "Legg til titel her"
 author: "Legg til navn på alle forfattere her"
 date: "Legg til dato hvis du ønsker"
-output: pdf_document
+output: html_document
 
 ---
 
@@ -10,82 +10,52 @@ output: pdf_document
 knitr::opts_chunk$set(echo = TRUE)
 
 library("tidyverse")
-library("ggplot2")
-library("broom")
 
-# read in data sets
-antall <- read_delim(file = "data/Antall_bakterier.csv", delim = ",")
+# les inn datasettene
+koliforme <- read_delim(file = "data/Koliforme.csv", delim = ",")
 vekst <- read_delim(file = "data/Vekst.csv", delim = ",")
 
 ```
 
 ## Introduksjon
 
-Add a paragraph or two on the introduction of this topic.
-Hva er hovedspørsmål til denne studien og hva er forventningene?
+Skriv en introduksjon med hovedspørsmål og forventningene?
 
 ## Metode
 
-Beskriv hvordan dataene ble sammlet og analysert.
+Beskriv hvordan dataene ble samlet og analysert.
 
 
 
 ## Resultat
 
-Oppsumer resultatene i en tabell som viser gjennomsnitt og standardfeil til de to forsjkellige baketerie typene i alle 3 vann.
+Oppsummer resultatene i en tabell som viser gjennomsnitt og standard feil til koliforme baketerie i de tre 3 vann.
 
 ```{r tabel, eval=TRUE, echo=FALSE}
 
-antall %>% 
-  group_by(vann, bakterie) %>% 
+koliforme %>% 
+  group_by(vann) %>% 
   summarise(gjennomsnitt = mean(antall_per_ml),
             standardfeil = sd(antall_per_ml) / sqrt(n())) %>% 
-  mutate(gjennomsnitt = round(gjennomsnitt, 2),
-         standardfeil = round(standardfeil, 2)) %>% 
-  knitr::kable()
+  knitr::kable(digits = 1,
+               caption = "Tabell 1: beskriv tabellen i en settning.")
 
 ```
 
 
-Lag en boksplot som viser antall bakterier per vann og bakterie type.
-Og beskrive i argmuentet ```fig.cap``` hva dette plottet viser.
+Lag en boksplott som viser antall bakterier per vann og bakterie type.
+Med argumentet ```fig.cap``` på toppen av den neste code chunk kan du legge til en figur tekst og beskrive hva dette plottet viser.
 
 ```{r boksplot, eval=TRUE, echo=FALSE, fig.cap="..."}
 
-ggplot(antall, aes(x = vann, y = antall_per_ml)) +
+ggplot(koliforme, aes(x = vann, y = antall_per_ml)) +
   geom_boxplot() +
-  labs(x = NULL, y = "Antall bakterier per ml") +
-  facet_wrap(~ bakterie, scales = "free_y")
+  labs(x = NULL, y = "Antall bakterier per ml")
 
 ```
 
 
-Nå skal vi teste om antall bakterier er forksjellige mellom de 3 vann.
-
-
-```{r, test, eval=TRUE, echo=FALSE}
-
-resultat <- antall %>% 
-  nest(data = -bakterie) %>% 
-  mutate(model = map(data, ~lm(antall_per_ml ~ vann, data = .)),
-         result = map(model, tidy)) %>% 
-  unnest(result) %>% 
-  select(bakterie, estimate:p.value)
-
-
-```
-
-
-```{r, resultat, eval=TRUE, echo=FALSE}
-
-resultat  %>% 
-  knitr::kable(digits = 2)
-
-
-```
-
-
-Til slutt lag en vekstkurve med standardfeil for hver observasjon.
+Lag en vekstkurve med standardfeil for hver observasjon.
 Beskrive også her i argmuentet ```fig.cap``` hva dette plottet viser.
 
 ```{r vekstkurve, eval=TRUE, echo=FALSE, fig.cap="..."}
