@@ -8,20 +8,26 @@ runtime: shiny_prerendered
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, message = FALSE)
-#options(dplyr.summarise.inform = FALSE)
 
+# load learnr package
+library("learnr")
+library("tidyverse")
+
+# laod datasets
+kimtall <- read_delim(file = "data/Kimtall.csv", delim = ",")
+vekst <- read_delim(file = "data/Vekst.csv", delim = ",")
 ```
 
 
 ## Introduksjon
 
-Dette er en introduksjon til praksis del XXX i Bio101 Organismebiologi 1 ved UiB.
+Dette er en introduksjon til praksis del i Bio101 Organismebiologi 1 ved UiB.
 
 I denne tutorial skal vi vise deg forsjkellige steg i data håntering, analyse og visualisering.
-Vi skal forklare deg hvordan et dataset er bygget opp, hvordan man leser data inn i R, beregener gjennomsnitt og varians, tester forjskell mellom grupper og lager plot.
+Vi skal forklare deg hvordan et dataset er bygget opp, hvordan man leser data inn i R, beregner gjennomsnitt og varians, gjør en enkel test og lager et plot.
 Deretter skal vi også diskutere hva som er viktig når du skriver en rapport og presenterer vitenskaplige resultater.
 
-Vi skal jobbe med programvaren R, men ikke vær redd, vi skal forklare et steg om gangen og vi har også mer informasjon om R, hvordan man installerer R, og de første stegene i R som skal hjelpe deg.
+Vi skal jobbe med programvaren R, men ikke vær redd, vi skal forklare et steg om gangen.
 
 
 ## Preparasjon
@@ -41,74 +47,79 @@ install.packages("tidyverse")
 
 Hvis dette er ny for deg, skjekk denne instruksjonen her: link
 
-I denne tutorial skal vi bruke pakkene **learnr**, **tidyverse** og **broom** og vi laster disse in med funksjonen `library()`:
+I denne tutorial skal vi bruke **tidyverse** pakken og vi laster denne pakken med funksjonen `library()`:
 
-```{r load-libs, eval = TRUE, echo=TRUE}
-library("learnr")
+```{r load-libs, eval = FALSE, echo=TRUE}
 library("tidyverse")
-library("broom")
 
 ```
 
 ## Organisajon av en data fil
 
-Vi skal først snakke om organsasjon av data.
+Vi skal først forklare organisasjon av data i en fil.
 
 Når data blir samlet inn må disse digitaliseres i en tabell med kolonner og rad.
-Vanligvis bruker man en programvare som Excel eller lignende for denne jobben.
+Vanligvis bruker man en programvare som Excel eller lignende.
 En god metode er å lagre data i en format som .csv eller .txt, fordi disse krever ikke en spesifikk programvare til å åpne filene og derfor er dataene også tilgjengelig til andre.
-Tilgjengelighet av data er et viktig grunnprinsipp av **Open and reproducible science**.
+Tilgjengelighet av data er et viktig grunnprinsipp av **open and reproducible science**.
 
 Det er lurt å tenke gjennom hvordan dataene skal organiseres.
-Det mest vanlige er at toppen av kolonnene viser navn til variablene og hver enkel rad representerer en obsjervasjon.
+Det mest vanlige er at kolonnene representerer forskjellige **variabler**, toppen av kolonnene viser navn til variablene og hver enkel rad representerer en observasjon.
 En observasjon kan for eksempel være en måling for et individ, en observasjon av en type bakterie, eller en måling for et tre.
 
-La oss se på et dataset som inneholder antall bakterier per ml for tre forskjellige vann i Bergen.
-Den første rad viser navn til de tre kolonnene: **vann**, **bakterie** og **antall_per_ml**.
+La oss se på et datasett som inneholder antall bakterier per ml for tre forskjellige vann i Bergen.
+Den første rad viser navn til de to kolonnene: **vann** og **antall_per_ml**.
 De neste radene inneholder data.
-Det kan enten være tekst som de første to kolonnene eller tall.
+Data kan både være tekst som i den første kolonnen eller tall.
+Variabler med tekst kalles for **kategorisk** mens variabler med tall heter **numerisk**.
 
-```{r read_in_data_secretly, eval=TRUE, echo=FALSE}
+Og sånn ser dette ut i R:
 
-antall <- read_delim(file = "data/Antall_bakterier.csv", delim = ",")
+```{r show_read_in, eval=FALSE, echo=FALSE}
+
+kimtall <- read_delim(file = "data/Kimtall.csv", delim = ",")
 ```
 
 ```{r display-data, eval=TRUE, echo=FALSE}
 
-antall
+kimtall
 ```
 
 ## Hvordan laster jeg et dataset inn i R?
 
 For å kunne jobbe med data i R, må vi først laste inn datasettet.
-Dette gjør vi med å bruke vi funksjonen `read_delim()`.
+Dette gjør vi med å bruke funksjonen `read_delim()`.
 Det første argument i denne funksjonen er `file`  og definerer hvor dataene er.
-Det er ofte lurt å lage en mappe som heter **data** eller noe lignende hvor du lager dataene dine.
+Det er lurt å lage en mappe som heter **data** hvor du lager dataene dine og beholder oversikten.
 Det neste argumentet er `delim` og definerer hvilket tegn som ble brukt til å separerer dataene.
 I dette tilfelle er det en komma.
-Men det kan også være et annet tegn som semi-kolon (;) eller tab osw.
+Men det kan også være et annet tegn som semi-kolon `";"`, tab `" "`, eller noe annet.
 
 ```{r read_in_data, eval=FALSE, echo=TRUE}
 
-read_delim(file = "data/filename.csv", delim = ",")
+data <- read_delim(file = "data/filename.csv", delim = ",")
 ```
 
-La oss prøver med et riktig datasett som heter **Antall_bakterier.csv** og ligger i en mappe **data**.
+Som du ser skriver vi også `data <-` som gir datasettet et nytt navn.
+Det er viktig å gi datasettet et navn hvis vi vil bruke datasettet videre i R fordi det blir ikke gjort automatisk når et datasett blir lastet inn.
+
+La oss nå prøve med et riktig datasett som heter **Kimtall.csv** og ligger i mappen **data**.
+Vi gir dette datasettet et nytt navn **kimtall**.
 
 ```{r read_in_data2, eval=TRUE, echo=TRUE}
-antall <- read_delim(file = "data/Antall_bakterier.csv", delim = ",")
+kimtall <- read_delim(file = "data/Kimtall.csv", delim = ",")
 
 ```
 
-Hvis vi nå ser i **Environment**, så vil vi finne et datasett som heter antall.
+Hvis du nå ser på **Environment** tab (vanlighvis er den i det øvre høyere hjørnet i R Studio), så inneholder det nå et datasett som heter kimtall med 75 observasjoner (rad) og 2 variabler (kolonner).
 
 ```{r environment, eval=TRUE, echo=FALSE}
 
-knitr::include_graphics("pics/environment.png")
+knitr::include_graphics("images/environment.png")
 ```
 
 
-## Deskriptiv statistikk
+## Deskriptiv statistikk - gjennomsnitt
 
 Et første steg er ofte å beskrive dataene eller oppsummere dataene.
 Dette kalles for **deskriptiv statistikk**.
@@ -118,11 +129,12 @@ For dette bruker vi to forskjellige verdier: **gjennomsnitt** og **variabilitet*
 
 ### Hva er gjennomsnitt?
 
-**Gjennomsnitt** beskriver middelverdien av en variable altså den mest typiske verdien for en mengde med tall.
+**Gjennomsnitt** beskriver middelverdien av en variabel, altså den mest typiske verdien for en mengde med tall.
 Gjennomsnitt beregnes med å summere alle verdiene av en variable og dele med antall verdier.
 
-La oss si vi har mange fisker med forskjellig kroppslengde.
-Nå deler vi disse forskjellige lengdene i lengde klasser og i et histogramm kan vi vise alle lengde klassene på x-aksen og antall, altså hvor mange ganger en hvis lengde forekommer på y-aksen.
+La oss si vi har en populasjon med fisker i det Lille Lungårsvannet og vi er interessert å finne ut gjennomsnittlig lengde på disse fiskene.
+Vi drar på en fisketur, og fisker hundre fisker og måler kroppslengden på alle.
+Nå deler vi disse forskjellige lengdene i lengde klasser og i et histogramm kan vi vise alle lengde klassene på x-aksen og antall, altså hvor mange ganger en hvis lengde forekommer på y-aksen (see figuren nedenfor).
 
 
 ```{r example_data, eval=TRUE, echo=FALSE}
@@ -133,41 +145,70 @@ dat <- tibble(dataset = c(rep("data1", 100), rep("data2", 100)),
 ggplot(dat, aes(x = var)) +
   geom_histogram() +
   geom_vline(xintercept = 15, colour = "red", linetype = "dashed") +
-  labs(x = "Kroppslengde. i cm", y = "Antall verdier per størrelse") +
+  labs(x = "Lengde i cm", y = "Antall verdier per lengde klasse") +
   theme_minimal()
   
 
 ```
 
-Hvis vi vil beregne gjennomsnitt så teller vi alle lengdene tilsammen og deler med antall fisker.
-I dette tilfelle er gjennomsnitt 15 og vises med den røde streken i figuren.
+For å beregne gjennomsnitt så teller vi alle lengdene sammen og deler med antall fisker.
+I dette tilfelle er gjennomsnitt 15 cm og er markert med en røde strek i figuren.
 
 
 Formelen for gjennomsnitt er:
 y = (x~1~ + x~2~ + x~3~ + ... + x~n~) / n
 
-*x~1~* og *x~2~* osw er forskjellige tall fra en variable, for eksempel de forskjellige lengdene fra fiskene.
-*x~n~* betyr at det kan være n antall størrelser.
+*x~1~* og *x~2~* osw er forskjellige lengder til fiskene.
+*x~n~* betyr at det kan være n antall fisker og størrelser.
 Og *n* er antall fisker.
 
 Hvis du vil vite mer om gjennomsnitt kan du se denne video:
 https://biostats.w.uib.no/gjennomsnitt/
 
 
-### Standard avvik og standard feil
+#### Gjennomsnitt i R
 
-Gjennomsnitt i seg selv er ikke nok til å beskrive et datasett.
-Her er to datasett med kroppslengder av fisker som begge har gjennomsnitts lengden 15 cm.
-Vi kan se veldig tydelig at fordelingen av dataene, altså antall lengde verdier i hver klasse er veldig forskjellig.
+I R beregner vi gjennomsnitt med funksjonen `mean()`.
+
+Hvis vi skal beregne gjennomsnitt for antall bakterier for kimtall datasettet bruker vi `mean()` funksjonen og definerer først datasett, altså **kimtall** og deretter fra hvilken variabel vi vil beregne gjennomsnitt.
+I dette tilfelle er det **antall_per_ml**.
+Vi bruker dollar tegn `$` for å skille mellom datasett og variabelen.
+
+```{r mean, eval=TRUE, echo=TRUE}
+  
+mean(kimtall$antall_per_ml)
+
+```
+
+#### Eksempel
+
+Prøv nå selv å beregne gjennomsnitt for kimtall datasettet.
+I R vinduet nedenfor kan du skrive koden som mangler (...) selv og deretter teste koden med å klikke på den blåe **Run Code** knappen i høyre hjørnet.
+Du har så mange forsøk som du trenger.
+
+```{r mean-excercise, exercise=TRUE}
+  
+mean(kimtall$...)
+
+```
+
+
+## Deskriptiv statistikk - variabilitet
+
+### Standard avvik
+
+Gjennomsnitt i seg selv er ikke nok til å beskrive en variabel.
+Her er to datasett med kroppslengder av fisker som begge har en gjennomsnitt på 15 cm.
+Vi kan se tydelig at fordelingen av dataene, altså antall lengde verdier i hver klasse er forskjellig.
 I det første datasettet har vi få lengde klasser med mange verdier (tett historamm), mens i det andre datasettet har vi mange lengder klasser med få verdier (brei histogramm).
-Denne spredningen i data kalles standardavviket og gir verdienes gjennomsnittlige avstand fra gjennomsnittet.
+Denne spredningen i dataene kalles **standard avviket** og gir verdienes gjennomsnittlige avstand fra gjennomsnittet.
 
-```{r variability_data, eval=TRUE, echo=FALSE}
+```{r variability-data, eval=TRUE, echo=FALSE}
 
 ggplot(dat, aes(x = var)) +
   geom_histogram() +
   geom_vline(xintercept = 15, colour = "red", linetype = "dashed") +
-  labs(x = "Størrelse i cm", y = "Antall verdier per størrelse") +
+  labs(x = "Lengde i cm", y = "Antall verdier per lengde klasse") +
   facet_wrap(~ dataset) +
   theme_minimal()
   
@@ -178,182 +219,360 @@ ggplot(dat, aes(x = var)) +
 Standard avvik beregnes med å summere kvadratene av differanse mellom kroppslengden av hver fisk og gjennomsnitt og dele det med antall fisker og til slutt tar vi kvadratroten av alt.
 
 Formelen for standard avvik er:
-sd = sqrt([(x~1~ - y)^2^ + (x~2~ - y)^2^ + (x~3~ - y)^2^ + ... + (x~n~ - y)^2^] / (n))
+sd = sqrt([(x~1~ - y)^2^ + (x~2~ - y)^2^ + (x~3~ - y)^2^ + ... + (x~n~ - y)^2^] / n)
 
 *x~1~* og *x~2~* osw er forskjellige tall fra en variable, for eksempel de forskjellige lengdene fra fiskene.
-*x~n~* betyr at det kan være n antall størrelser.
+*x~n~* betyr at det kan være n antall lengder.
 *y* er gjennomsnitt og *n* er antall fisker.
 
-
-
-
-- Forskjell mellom standard avvik og standard feil.
-
-
-Hvis du vil vite mer om gjennomsnitt kan du se denne video:
+Hvis dette gikk litt for fort kan du se denne video som forklarer standard avvik i mer detalje:
 https://biostats.w.uib.no/gjennomsnitt/
 
-### Eksempel
-La oss prøve nå:
-hva betyr group_by og summarise
-bruk round() for å ...
-kable: lage fin tabell.
 
-```{r tabel, eval=TRUE, echo=TRUE}
+Standard avvik beskriver spredningen for et gitt datasett, altså et begrenset tall av observasjoner, for eksempel for de 100 fiskene fra det Lille Lungårsvannet.
+Vi kan bare målen lengden på et begrenset antall av fiskene i denne populasjonen, men egentlig er vi interessert i variabiliteten til hele populasjonen hvor vi har samlet disse 100 fiskene fra.
+Altså fra hele fiske populasjonen i det Lille Lungårsvannet.
 
-antall %>% 
-  group_by(vann, bakterie) %>% 
+Hvordan kan vi generalisere standard avvik for hele populasjonen?
+
+
+### Standard feil
+
+Hvis vi hadde målt lengden på 100 tilfeldige fisker i det Lille Lungårsvannet flere ganger, hadde gjennomsnitt hvært litt forskjellig hver gang.
+Dette kalles for prøvemiddel (*sampling distribution of the mean*).
+Variansen av disse gjennomsnittene fra de forskjellige prøvene kan beregnes med standard avvik fra de forskjellige prøvene og dette kalles **standard feil av det estimerte gjennomsnittet**.
+(This variance between the means of different samples can be estimated by the standard deviation of this sampling distribution and it is the standard error of the estimate of the mean.)
+
+Dette er litt forvirrende!
+Standard feil er en slags standard avvik i forskjellige verdier av prøvens gjennomsnitt. 
+Kort sagt er standardfeilen i en statistikk ikke noe annet enn standardavviket i samplingsfordelingen.
+
+Formelen for standard feil er:
+se = sd / sqrt(n)
+
+*sd* er populasjonsstandardavvik og *n* er antall observasjoner.
+
+Hvis vi vil si noe om spredningen av en variabel kan vi bruke standard avvik.
+Men hvis vi vil si noe om usikkerheten rundt en estimert gjennomsnitt, så bruker vi standard feil.
+
+
+#### Standard avvik og feil i R
+
+I R beregner man **standard avvik** med funksjonen `sd()`.
+
+Hvis vi skal beregne standard avvik av bakterier for kimtall datasettet kan vi bruke `sd()` funksjonen. Vi definerer først datasett, altså **kimtall** og deretter for hvilken variabel vi vil beregne standard avvik.
+I dette tilfelle er det **antall_per_ml**.
+Vi bruker dollar tegn `$` mellom datasett og variable.
+
+```{r sd, eval=TRUE, echo=TRUE}
+  
+sd(kimtall$antall_per_ml)
+
+```
+
+For å beregne **standard feil** trenger vi flere ting:
+
+- standard avvik av antall bakterier, den har vi allerede beregnet lenger oppe.
+- antall observasjoner *n*
+- og funksjonen for kvadratroten
+
+I R kan vi beregne antall observasjoner med funksjonen `length()` av en variabel i et datasett.
+Og funksjonen for kvadratroten er `sqrt()`.
+
+La oss sette alt sammen:
+
+```{r se, eval=TRUE, echo=TRUE}
+
+sd(kimtall$antall_per_ml) / sqrt(length(kimtall$antall_per_ml))
+
+```
+
+#### Eksempel
+
+Prøv nå selv å beregne standard avvik for kimtall og standard feil fra :
+
+```{r sd-excercise, exercise=TRUE}
+  
+sd(kimtall$...)
+
+sd(kimtall$...) / sqrt(length(...))
+
+```
+
+
+La oss nå sette alt sammen og beregne gjennomsnitt og standard feil for kimtall i de tre forskjellige vann.
+Vi skal lage en tabell som vi seinere kan bruke i en rapport, altså vi vil ha en ryddig tabell!
+
+Vi må først si noen ord om `tidyverse`.
+Lenger oppe brukte vi notasjon `kimtall$antall_per_ml` med `$`.
+I mange tilfeller er dette greit, men det fins også en ny form for koding som ofte gjør ting enklere - `tidyverse`.
+
+For dette må vi lære oss litt flere funksjoner:
+I `tidyverse` er første argumentet alltid datasettet.
+Neste argumentet er `%>% ` som heter *pipe* og det setter vi mellom alle funksjoner som vi skal bruke.
+
+Med `summarise()` kan vi oppsummere et datasett, og vi kan oppsummere for en spesifikk gruppe med å bruke `group_by()`.
+
+Vi skriver først datasett, pipe, `group_by()` med variablen vann for å indikere at vi vil beregne gjennomsnitt per vann.
+Og til slutt `summarise()`.
+I `summarise()` må vi gi et navn, altså gjennomsnitt og en funksjon altså `mean()` fra variabelen antall_per_ml.
+
+
+```{r sumarise-mean, eval=TRUE, echo=TRUE}
+
+kimtall %>% 
+  group_by(vann) %>% 
+  summarise(gjennomsnitt = mean(antall_per_ml))
+
+```
+
+Her får du en tabell med de tre vann og gjennomsnitt for hver vann.
+
+Nå skal vi legge til standard feil i tabellen.
+Vi bruker samme koden og legger til en linje i `summarise()`.
+Vi må først bruke et komma, og deretter skriver vi neste funksjonen som skal gjøres i `summarise()`.
+Det kan være en enkel formel eller som her noe mer komplisert.
+Vi beregner standard avvik av kimtall, og deler med kvadratrot av antallet.
+I `tidyverse` finnes det en egen funksjon for antall: `n()`
+
+
+```{r sumarise-sd, eval=TRUE, echo=TRUE}
+
+kimtall %>% 
+  group_by(vann) %>% 
+  summarise(gjennomsnitt = mean(antall_per_ml),
+            standardfeil = sd(antall_per_ml) / sqrt(n()))
+
+```
+
+
+Nå har vi en tabell med gjennomsnitt og standard feil for de tre vann.
+
+
+#### Eksempel
+
+Prøv nå selv å beregne gjennomsnitt og standard feil for kimtall datasettet.
+
+```{r sumarize-ex, exercise=TRUE}
+  
+kimtall %>% 
+  group_by(...) %>% 
+  summarise(gjennomsnitt = mean(...),
+            standardfeil = sd(...) / sqrt(n()))
+
+```
+
+
+
+Denne tabellen kan lages litt penere, hvis vi runde av tallene.
+Funksjonen `kabel()` lager en fin tabell og har et argumentet `digits =`, som bestemmer hvor mange tall etter komma du vil ha.
+Her setter vi det lik 1.
+
+I tillegg skal alle tabeller ha en tabelltekst som beskriver hva tabellen inneholder.
+`kabel()` har et argument som heter `caption = ` hvor du kan legge til en tabelltekst.
+
+```{r pretty-table, eval=TRUE, echo=TRUE}
+
+kimtall %>% 
+  group_by(vann) %>% 
   summarise(gjennomsnitt = mean(antall_per_ml),
             standardfeil = sd(antall_per_ml) / sqrt(n())) %>% 
-   mutate(gjennomsnitt = round(gjennomsnitt, 2),
-         standardfeil = round(standardfeil, 2)) %>% 
-  knitr::kable()
+  knitr::kable(digits = 1, caption = "Tabel 1: Her kan du beskrive hva denne tabellen inneholder.")
 
 ```
 
-
-## Hvordan lager jeg en boksplot?
-
-- Hva er en boksplot, hva er på x og y akse
-- Vi bruker ggplot for å lage figurer
-- Første argumente er data, y er response, x er den forklarende variablen vi vil plotte og så må vi definere hva slags plot vi skal lage: ```geom_boxplot()```
+Er ikke dette en fin og ryddig tabell?
 
 
-```{r boxplot_1, eval=FALSE, echo=TRUE}
-ggplot(data, aes(x = variable, y = response)) +
+## Data visualisering med boksplott
+
+Et boksplott er en kompakt, men effektiv måte å representere et datasett ved å bruke deskriptiv statistikk.
+Boksen representerer det første og tredje kvartil og streken i midten er median.
+Et boksplott har whiskers, og disse brukes til å representere minimum og maksimumsverdi.
+
+Et boksplott brukes for å visualisere en numerisk variabel fra en eller flere grupper.
+På y-aksen er det en numerisk variabel, mens på x-aksen er det en kategorisk variabel.
+
+Hvis du vil vite mer om boksplott, for eksempel median, første og tredje kvartil, er det forklart i variabilitets video:
+https://biostats.w.uib.no/gjennomsnitt/
+
+I R bruker vi `ggplot()` funksjonen for å visualisere data.
+Første argumentet er data, deretter skriver vi `aes()` med `y = ` som definerer verdien på y-aksen, og `x =` verdien på x-aksen.
+Neste funksjon er `geom_boxplot()` som definerer hvilken type plott vi skal lage.
+Disse to funksjonene settes sammen med et pluss tegn `+`.
+
+```{r boxplot-1, eval=FALSE, echo=TRUE}
+ggplot(data, aes(x = x-akse-variabelen, y = y-akse-variabelen)) +
   geom_boxplot()
 
 ```
 
 
-La oss prøve med et riktig eksempel:
+La oss prøve med kimtall datasettet.
+Datasettet heter **kimtall**, på x-aksen vil vi ha variabelen **vann**, og på y-aksen **antall_per_ml** bakterier.
 
-```{r boxplot_2, eval=TRUE, echo=TRUE}
-ggplot(antall, aes(x = vann, y = antall_per_ml)) +
+```{r boxplot-2, eval=TRUE, echo=TRUE}
+ggplot(kimtall, aes(x = vann, y = antall_per_ml)) +
   geom_boxplot()
 
 ```
 
-La oss legge til noen ting for å lage plottet litt penere:
+#### Eksempel
 
-For å forandre tekste på aksen kan vi bruke ```labs()```
+Prøv nå selv å lage en boksplott:
 
-```facet_wrap()``` fordi vi har 2 bakterie typer. scales = ...
+```{r boxplot-ex-simple, exercise=TRUE}
+  
+ggplot(kimtall, aes(x = ..., y = ...)) +
+  geom_boxplot()
 
-```theme_xxx()``` 
+```
 
 
+Med `ggplot()` har R verden din blitt kjempe stor og du har tusenvis av muligheter til å lage plott.
+Høres det ikke flott ut?
+La oss altså bruke noen muligheter og lage dette plottet litt penere!
 
-```{r boxplot_3, eval=TRUE, echo=TRUE}
-ggplot(antall, aes(x = vann, y = antall_per_ml)) +
+For å forandre tekste på x- og y-aksen kan vi bruke `labs()` med argumentene `x = "Navn på x-aksen"` og `y = "Nav på y-aksen"`.
+R bruker automatisk det navnet som er i datasettet, men ofte er det ikke veldig informativt.
+På aksene i et plott vil vi gjerne ha et informativt navn av variabelen og enheten til en variabel.
+I dette tilfelle er dette **Antall bakterier per ml**.
+På x-aksen trenger vi egentlig ikke noe navn og bruker derfor `x = NULL`.
+
+Vi kan bruke `theme_minimal()` for å forandre utseende til plottet.
+Det fins mange forskjellige `theme_...()` og du kan finne ut selv hvilken du liker best.
+
+Kanskje du vil lage teksten og tallene på aksene litt større.
+Det er lurt å lage teksten i et plot stort nok at alle kan lese tall og navn på aksene.
+Disse kan bli litt liten hvis du viser plottet i en presentasjon på en skjerm.
+For dette legger vi til funksjonen `theme()` med argumentet `text = element_text()`.
+Her kan vi definere størrelsen av teksten med `size = `.
+
+
+```{r boxplot-3, eval=TRUE, echo=TRUE}
+ggplot(kimtall, aes(x = vann, y = antall_per_ml)) +
   geom_boxplot() +
   labs(x = NULL, y = "Antall bakterier per ml") +
-  facet_wrap(~ bakterie, scales = "free_y") +
-  theme_bw()
+  theme_minimal() +
+  theme(text = element_text(size = 15))
 
 ```
 
-### Øvelse
+Ser ikke dette mye bedre ut?
+
+
+### Eksempel
 
 Nå er de din tur!
-Lag en boksplot
+Lag en boksplott som viser kimtall for hvert vann.
 
-```{r boxplot_excercise, exercise=TRUE}
-ggplot(..., aes(x = , y = )) +
+```{r boxplot-excercise-vann, exercise=TRUE}
+ggplot(kimtall, aes(x = ..., y = ...)) +
   geom_boxplot()
 
 ```
+
+Prøv nå de forskjellige funksjonene `labs()`, `theme_minimal()`, `theme_bw()`, `theme_classic()` og `theme(text = element_text())` for å forbedre utseende på plottet.
+
+```{r boxplot-excercise-pretty, exercise=TRUE}
+ggplot(kimtall, aes(x = , y = )) +
+  geom_boxplot() +
+  labs()
+
+```
+
 
 ## Hva er en vekstkurve?
 
-- Hva er en vekstkurve, y og x akse
+En vekstkurve viser en utvikling av en populasjon over tid.
+Vi kan visualisere vekst med tid på x-aksen og antall av for eksempel antall celler på y-aksen.
 
+La oss se på vekst datasett.
+Vi leser inn datasette med `read_delim()`.
+Det har tre kolonner: **tid**, **celletall** og **standard feil**.
 
-```{r vekstkurve_data, eval=TRUE, echo=FALSE}
-vekst <- tibble(tid = c(0, 1, 2, 2.5, 3, 3.5, 4, 5, 6, 8, 10,  12, 16, 20, 24),
-                celletall = c(1, 2, 3, 4, 5, 6, 8, 10, 12, 14, 16, 18, 20, 21, 21),
-                standardfeil = c(0.1, 0.15, 0.4, 0.2, 1, 0.8, 2, 1, 0.5, 2, 2,  1.2, 2.7, 2.5, 1.5))
+```{r read-in-vekst, eval=TRUE, echo=TRUE}
+vekst <- read_delim(file = "data/Vekst.csv", delim = ",")
 
-```
-
-Hva slags data bruker vi?
-Tid, en variable, som her er celletall og standard feil
-
-```{r vekstkurve_data2, eval=TRUE, echo=TRUE}
 vekst
-
 ```
 
-Hvordan lager man en vekstkurve
+Her er vekstkurven fra dette datasettet.
+Dette er ikke en boksplott fordi vi har to numeriske variabler: tid og antall celler.
+Vi må bruke en annen form for visualisering, og her ser du vi bruker punkter og en linje.
+I R må vi derfor bruke `geom_point()` som lager et punkt for hver datapunkt og `geom_line()` som lager linjen mellom punktene.
 
-```{r vekstkurve_1, eval=FALSE, echo=TRUE}
-ggplot(data, aes(x = tid, y = variable)) +
-  geom_point() +
-  geom_line()
-
-```
-
-
-
-
-La oss prøve med et riktig eksempel:
-
-```{r vekstkurve_2, eval=TRUE, echo=TRUE}
+```{r vekstkurve, eval=TRUE, echo=FALSE}
 ggplot(vekst, aes(x = tid, y = celletall)) +
   geom_point() +
   geom_line() +
-  labs(x = "Tid i dager", y = "Celletall") + 
-  theme_bw()
-
+  labs(x = "Tid i dager", y = "Antall celler") +
+  theme_minimal()
+  
 ```
 
 
-Nå skal vi også legge til standardfeil for hver observasjon.
-```{r vekstkurve_2_med_se, eval=TRUE, echo=TRUE}
-ggplot(vekst, aes(x = tid, y = celletall, ymin = celletall - standardfeil, ymax = celletall + standardfeil)) +
+### Eksempel
+
+Prøv nå selv å lage denne vekstkurven.
+Vi vil ha tid på x-aksen og antall celler på y-aksen.
+
+Hvis du ønsker kan du også forandre på navn på aksene og størrelsen av teksten osw.
+
+```{r vekstkurve-excercise, exercise=TRUE}
+ggplot(vekst, aes(x = ..., y = ...)) +
+  geom_point() +
+  geom_line()
+  
+```
+
+
+Nå skal vi legge til standard feil for hver observasjon i plottet.
+For dette må vi først definere hva den minste og største verdien til standard feil er.
+I `ggplot()` bruker vi `ymin` og `ymax`.
+Og i tillegge må vi bruke funksjonen `geom_errorbar()` for å plottet standard feil.
+
+```{r vekstkurve2-se, eval=TRUE, echo=TRUE}
+ggplot(vekst, aes(x = tid, y = celletall, 
+                  ymin = celletall - standardfeil, 
+                  ymax = celletall + standardfeil)) +
   geom_point() +
   geom_line() +
   geom_errorbar() + 
-  labs(x = "Tid i dager", y = "Celletall") + 
+  labs(x = "Tid i dager", y = "Antall celler") + 
   theme_bw()
 
 ```
 
 
-### Øvelse
+### Eksempel
 
 Nå er de din tur!
-Lag en vekstkurve med 
+Lag en vekstkurve med standarfeil.
 
-```{r vekstkurve_excercise, exercise=TRUE}
-ggplot(, aes(x = , y = )) +
+```{r vekstkurve-excercise2, exercise=TRUE}
+ggplot(vekst, aes(x = , y = , ymin = , ymax = )) +
+  geom_point() +
+  ... +
+  theme_minimal()
   
-
 ```
+
 
 ## Hvordan tester jeg forskjell mellom grupper?
 
-Et ofte stillt spørsmål i økologi er om det er en forskjell mellom grupper.
+Et ofte stilt spørsmål i økologi er om det er en forskjell mellom grupper.
 For eksempel er biller fra skog A større en biller fra skog B.
 
-Hvordan tester man dette:
-Forklar veldig enkelt hva en ANOVA er
-
-```{r}
-
-antall %>% 
-  nest(data = -bakterie) %>% 
-  mutate(model = map(data, ~lm(antall_per_ml ~ vann, data = .)),
-         result = map(model, tidy)) %>% 
-  unnest(result)
-
-
-```
-
-Interpretasjon av resultatene...
+Do we need this section???
 
 
 ## Noen ord om å lage en rapport
 
 Rmarkdown er en praktisk metode å skrive en rapport.
-Some explanations how it works.
+I øvelsen i denne praksisdelen skal du bruke en Rmarkdown til å skrive rapporten.
+En RMarkdown fil kan inneholde både tekst og kode og du kan direkte plotte tabeller og figurer.
+
+Se denne video for en kort inforing i RMarkdown:
+https://www.youtube.com/watch?v=EqJiAlJAl8Y&list=PLA2iRWVwbpTIweEBHD2dOKjZHK1atRmXt&index=7
+
