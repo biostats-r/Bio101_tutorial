@@ -16,6 +16,16 @@ library("tidyverse")
 # laod datasets
 kimtall <- read_delim(file = "data/Kimtall.csv", delim = ",")
 vekst <- read_delim(file = "data/Vekst.csv", delim = ",")
+
+# videos
+embed_video <- function(src, type = "video/mp4", width = "320", height = "240",
+                     attribute = "controls", placeholder = "") {
+  if (knitr::is_html_output()) {
+    sprintf("<video width='%3$s' height='%4$s' %5$s>
+               <source src='%1$s' type='%2$s'>
+            </video>", src, type, width, height, attribute)
+  } else print(placeholder)
+}
 ```
 
 
@@ -139,7 +149,8 @@ y = (x~1~ + x~2~ + x~3~ + ... + x~n~) / n
 Og *n* er antall fisker.
 
 Hvis du vil vite mer om gjennomsnitt kan du se denne video:
-<!-- <iframe width="560" height="315" src="http://bioceed.uib.no/dropfolder/bioSTATS/VideoSTATS/Gjennomsnitt1.mp4" controls="controls" width="100%"></iframe> -->
+
+`r embed_video(src = "http://bioceed.uib.no/dropfolder/bioSTATS/VideoSTATS/Gjennomsnitt1.mp4", type = "video/mp4", width = "320", height = "240", attribute = "controls", placeholder = "Sorry, your browser doesn't support embedded videos.")`
 
 #### Gjennomsnitt i R
 
@@ -211,7 +222,8 @@ sd = sqrt([(x~1~ - y)^2^ + (x~2~ - y)^2^ + (x~3~ - y)^2^ + ... + (x~n~ - y)^2^] 
 *y* er gjennomsnitt og *n* er antall fisker.
 
 Hvis dette gikk litt for fort kan du se denne video som forklarer standard avvik i mer detalje:
-https://biostats.w.uib.no/gjennomsnitt/
+
+`r embed_video(src = "http://bioceed.uib.no/dropfolder/bioSTATS/VideoSTATS/Variabilitet1.mp4", type = "video/mp4", width = "320", height = "240", attribute = "controls", placeholder = "Sorry, your browser doesn't support embedded videos.")`
 
 
 Standard avvik beskriver spredningen for et gitt datasett, altså et begrenset tall av observasjoner, for eksempel for de 100 fiskene fra det Lille Lungårsvannet.
@@ -381,7 +393,8 @@ Et boksplott brukes for å visualisere en numerisk variabel fra en eller flere g
 På y-aksen er det en numerisk variabel, mens på x-aksen er det en kategorisk variabel.
 
 Hvis du vil vite mer om boksplott, for eksempel median, første og tredje kvartil, er det forklart i variabilitets video:
-https://biostats.w.uib.no/gjennomsnitt/
+
+`r embed_video(src = "http://bioceed.uib.no/dropfolder/bioSTATS/VideoSTATS/Variabilitet1.mp4", type = "video/mp4", width = "320", height = "240", attribute = "controls", placeholder = "Sorry, your browser doesn't support embedded videos.")`
 
 I R bruker vi `ggplot()` funksjonen for å visualisere data.
 Første argumentet er data, deretter skriver vi `aes()` med `y = ` som definerer verdien på y-aksen, og `x =` verdien på x-aksen.
