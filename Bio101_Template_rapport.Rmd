@@ -56,7 +56,7 @@ ggplot(koliforme, aes(x = vann, y = antall_per_ml)) +
 
 
 Lag en vekstkurve med standardfeil for hver observasjon.
-Beskrive også her i argmuentet ```fig.cap``` hva dette plottet viser.
+Beskriv også her i argmuentet ```fig.cap``` hva dette plottet viser.
 
 ```{r vekstkurve, eval=TRUE, echo=FALSE, fig.cap="..."}
 
@@ -68,7 +68,12 @@ ggplot(vekst, aes(x = tid, y = celletall, ymin = celletall - standardfeil, ymax 
 
 ```
 
+
+Beskriv resultatene med ord.
+Sammenlign gjennomsnitt og spredning av data i de tre vann.
+
+
 ## Diskusjon
 
-Til slutt diskuter resultatene.
+Diskuter resultatene.
 

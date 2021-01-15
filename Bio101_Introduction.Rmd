@@ -30,30 +30,6 @@ Deretter skal vi også diskutere hva som er viktig når du skriver en rapport og
 Vi skal jobbe med programvaren R, men ikke vær redd, vi skal forklare et steg om gangen.
 
 
-## Preparasjon
-
-Vi skal jobbe med programvaren R.
-Hvis du aldri har brukt R før, finner du en introduksjon til R her: https://biostats.w.uib.no/up-in-the-r-2/introduction-to-r/
-
-I R bruker vi forskjellige pakker som inneholder nyttige og nødvendige funksjoner.
-Disse må vi først laste inn for at vi kan bruke funksjonene.
-Hvis du aldri har brukt disse pakkene må du først installere dem.
-Sånn installerer du en pakke:
-
-```{r install-package, eval = FALSE, echo=TRUE}
-install.packages("tidyverse")
-
-```
-
-Hvis dette er ny for deg, skjekk denne instruksjonen her: link
-
-I denne tutorial skal vi bruke **tidyverse** pakken og vi laster denne pakken med funksjonen `library()`:
-
-```{r load-libs, eval = FALSE, echo=TRUE}
-library("tidyverse")
-
-```
-
 ## Organisajon av en data fil
 
 Vi skal først forklare organisasjon av data i en fil.
@@ -163,18 +139,27 @@ y = (x~1~ + x~2~ + x~3~ + ... + x~n~) / n
 Og *n* er antall fisker.
 
 Hvis du vil vite mer om gjennomsnitt kan du se denne video:
-https://biostats.w.uib.no/gjennomsnitt/
-
+<!-- <iframe width="560" height="315" src="http://bioceed.uib.no/dropfolder/bioSTATS/VideoSTATS/Gjennomsnitt1.mp4" controls="controls" width="100%"></iframe> -->
 
 #### Gjennomsnitt i R
 
 I R beregner vi gjennomsnitt med funksjonen `mean()`.
 
 Hvis vi skal beregne gjennomsnitt for antall bakterier for kimtall datasettet bruker vi `mean()` funksjonen og definerer først datasett, altså **kimtall** og deretter fra hvilken variabel vi vil beregne gjennomsnitt.
-I dette tilfelle er det **antall_per_ml**.
 Vi bruker dollar tegn `$` for å skille mellom datasett og variabelen.
+I R ser dette sånn ut:
 
-```{r mean, eval=TRUE, echo=TRUE}
+```{r mean1, eval=FALSE, echo=TRUE}
+  
+mean(datasett$variable)
+
+```
+
+
+I kimtall eksempelet skriver vi **kimtall**, `$` og  **antall_per_ml**.
+Og du kan se at resultatet er et tall, nemmlig gjennomsnittet.
+
+```{r mean2, eval=TRUE, echo=TRUE}
   
 mean(kimtall$antall_per_ml)
 
@@ -299,6 +284,8 @@ sd(kimtall$...) / sqrt(length(...))
 
 ```
 
+
+## Deskriptiv statistikk - lage en tabell
 
 La oss nå sette alt sammen og beregne gjennomsnitt og standard feil for kimtall i de tre forskjellige vann.
 Vi skal lage en tabell som vi seinere kan bruke i en rapport, altså vi vil ha en ryddig tabell!
@@ -559,20 +546,33 @@ ggplot(vekst, aes(x = , y = , ymin = , ymax = )) +
 ```
 
 
-## Hvordan tester jeg forskjell mellom grupper?
+## Interpretasjon av resultater
 
 Et ofte stilt spørsmål i økologi er om det er en forskjell mellom grupper.
-For eksempel er biller fra skog A større en biller fra skog B.
+Vi kan for eksempel spørre om antall bakterier i de tre vann er forskjellige.
+La oss se på boksplottet igjen som vi laget.
 
-Do we need this section???
+```{r forskjell, eval=TRUE, echo=FALSE}
+ggplot(kimtall, aes(x = vann, y = antall_per_ml)) +
+  geom_boxplot() +
+  labs(x = NULL, y = "Antall bakterier per ml") +
+  theme_minimal() +
+  theme(text = element_text(size = 15))
 
+```
 
-## Noen ord om å lage en rapport
+Boksplott er nyttig fordi de inneholder enkel statistikk.
+Vi kan sammenligne streken i de 3 boksplott som viser median og ser tydelig at median er veldig forskjellig i de 3 vann.
+Vi kan si at de tre vann har dermed forskjellige gjennomsnittlig antall bakterier.
 
-Rmarkdown er en praktisk metode å skrive en rapport.
-I øvelsen i denne praksisdelen skal du bruke en Rmarkdown til å skrive rapporten.
-En RMarkdown fil kan inneholde både tekst og kode og du kan direkte plotte tabeller og figurer.
+Vi kan også sammenligne boksene og sjekke om de overlapper.
+Boksene til Andedam og Lille Lungårsvannet overlapper litt, men ikke Puddefjorden.
+Vi kan si at antall bakterier i Puddefjorden er mindre en i Andedam og Lille Lungårsvannet.
 
-Se denne video for en kort inforing i RMarkdown:
-https://www.youtube.com/watch?v=EqJiAlJAl8Y&list=PLA2iRWVwbpTIweEBHD2dOKjZHK1atRmXt&index=7
+Størrelsen på boksene sier oss også noe om variabilitet.
+I Puddefjorden er spredningen av data mye mindre en de andre to vann.
+
+Vi kan ikke si noe om sansynlighet og hvor sikkre vi er på disse resultatene.
+For dette trenger vi statistiske tester.
+Men for denne øvelsen er vi fornøyd med disse resultatene.
 
