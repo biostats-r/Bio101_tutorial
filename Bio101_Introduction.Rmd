@@ -1,5 +1,5 @@
 ---
-title: "Bio101_Introduksjon"
+title: "Bio101 Introduksjon"
 output: learnr::tutorial
 runtime: shiny_prerendered
 
@@ -142,11 +142,11 @@ I dette tilfelle er gjennomsnitt 15 cm og er markert med en røde strek i figure
 
 
 Formelen for gjennomsnitt er:
-y = (x~1~ + x~2~ + x~3~ + ... + x~n~) / n
+$$y = \frac{(x_1 + x_2 + x_3 + \dots + x_n)} {n}$$
 
-*x~1~* og *x~2~* osw er forskjellige lengder til fiskene.
-*x~n~* betyr at det kan være n antall fisker og størrelser.
-Og *n* er antall fisker.
+$x_1$ og $x_2$ osw er forskjellige lengder til fiskene.
+$x_n$ betyr at det kan være $n$ antall fisker og størrelser.
+Og $n$ er antall fisker.
 
 Hvis du vil vite mer om gjennomsnitt kan du se denne video:
 
@@ -215,11 +215,11 @@ ggplot(dat, aes(x = var)) +
 Standard avvik beregnes med å summere kvadratene av differanse mellom kroppslengden av hver fisk og gjennomsnitt og dele det med antall fisker og til slutt tar vi kvadratroten av alt.
 
 Formelen for standard avvik er:
-sd = sqrt([(x~1~ - y)^2^ + (x~2~ - y)^2^ + (x~3~ - y)^2^ + ... + (x~n~ - y)^2^] / n)
+$$sd = \frac{\sqrt{(x_1 - \hat{y})^2 + (x_2 - \hat{y})^2 + (x_3 - \hat{y})^2 + \dots + (x_n - \hat{y})^2}}  {n - 1})$$
 
-*x~1~* og *x~2~* osw er forskjellige tall fra en variable, for eksempel de forskjellige lengdene fra fiskene.
-*x~n~* betyr at det kan være n antall lengder.
-*y* er gjennomsnitt og *n* er antall fisker.
+$x_1$ og $x_2$ osw er forskjellige tall fra en variable, for eksempel de forskjellige lengdene fra fiskene.
+$x_n$ betyr at det kan være n antall lengder.
+$\hat{y}$ er estimert gjennomsnitt og $n$ er antall fisker.
 
 Hvis dette gikk litt for fort kan du se denne video som forklarer standard avvik i mer detalje:
 
