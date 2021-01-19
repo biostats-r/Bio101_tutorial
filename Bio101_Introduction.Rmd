@@ -208,9 +208,15 @@ ggplot(dat, aes(x = var)) +
   geom_vline(xintercept = 15, colour = "red", linetype = "dashed") +
   labs(x = "Lengde i cm", y = "Antall verdier per lengde klasse") +
   facet_wrap(~ dataset) +
-  theme_minimal()
-  
-
+  theme_minimal() +
+  geom_errorbarh(aes(y = 1,  xmin = lower, xmax = upper),
+                 data = tibble(dataset = c("data1", "data2"),
+                               mean = 15,
+                               sd = c(1, 4), 
+                               lower = mean - sd,
+                               upper = mean + sd), 
+                 inherit.aes = FALSE, 
+                 colour = "red")
 ```
 
 
