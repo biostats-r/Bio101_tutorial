@@ -1,8 +1,10 @@
 ---
 title: "Bio101 Introduksjon"
-output: learnr::tutorial
+output: 
+  learnr::tutorial:
+    language: tutorial_no.json
+    
 runtime: shiny_prerendered
-
 --- 
 
 
