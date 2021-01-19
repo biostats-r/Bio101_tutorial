@@ -81,7 +81,7 @@ Det første argument i denne funksjonen er `file`  og definerer hvor dataene er.
 Det er lurt å lage en mappe som heter **data** hvor du lager dataene dine og beholder oversikten.
 Det neste argumentet er `delim` og definerer hvilket tegn som ble brukt til å separerer dataene.
 I dette tilfelle er det en komma.
-Men det kan også være et annet tegn som semi-kolon `";"`, tab `" "`, eller noe annet.
+Men det kan også være et annet tegn som semi-kolon `";"`, tab `"\t"`, eller noe annet.
 
 ```{r read_in_data, eval=FALSE, echo=TRUE}
 
