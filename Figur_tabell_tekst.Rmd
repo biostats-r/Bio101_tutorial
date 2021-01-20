@@ -1,0 +1,137 @@
+---
+title: "Figur og tabell tekst"
+output:
+  bookdown::html_document2:
+    highlight: tango
+    toc: true
+    toc_float: true
+    #css: ../css/style-chapters.css
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE)
+```
+
+## Figur og tabell tekst
+
+Et bilde er verdt tusen ord, men en vitenskapelig figur er ikke verdt mye uten en forklarende figurtekst.
+
+Du kan bruke mye tid på å lage en fin illustrasjon, tegning eller tabell, men i utgangspunktet er sjansen stor for at meningen bak illustrasjonen blir uklar om du har ikke beskrevet hva den handler om.
+Derfor er det viktig å lage en tekst som skal gjøre illustrasjonen eller tabellen selvforklarende, med nok informasjon for å kunne tolke bilder og data på den riktige måten.
+
+ALLE FIGURENE OG TABELLENE MÅ NEVNES I TEKSTEN AV EN RAPPORT!
+
+Merk at du bør ikke nødvendigvis skrive mer en 2-3 linjer.
+Men husk at figur eller tabell teksten bør inneholde noen viktige detaljer og formateres riktig og vanligvis består av de følgende elementene:
+
+1. nummer*
+2. overskrift og beskrivelse*
+3. metodologiske detaljer
+4. tid og lokalisering (viktig for foto og tegninger)
+5. kredittering og opphavsrett
+
+*disse elementene er obligatoriske deler av en vitenskapelig figur.
+
+ 
+
+### Nummer
+
+Alle figurene, tegninger og tabeller skal nummereres fortløpende gjennom artikkeler, rapporter eller labjournaler.
+Nummeret er det første elementet som skrives i figurteksten, etterfulgt av figur, fig., tabell, tab. både i figur/tabellteksten og i selve teksten.
+Her er to eksempler
+
+ADD PICTURES!!!
+Figur 1. Ascophyllum nodosum thallus. Fotografert av Caroline Armitage.
+
+
+Figur 2. Ascophyllum nodosum thallus. Tegning av Caroline Armitage.
+
+
+### Overskrift og beskrivelse
+
+Ofte er det vanskelig å forstå hva et bilde eller en figur eller tabell handler om når forfatteren  ikke har skrevet en tilstrekkelig beskrivelse.
+Figur og tabellteksten bør derfor inneholde en kort, men klar overskrift og/eller beskrivelse av det som presenteres.
+Beskrivelsen kan inneholde:
+
+- hva som avbildes,
+- navnet på arter/strukturen som avbildes (se Figur 3),
+- hvilke verdier som vises på en graf (se Figur 4),
+- hvordan illustrasjonen er laget (tegning, foto, graf, (se Figur 1 og 2)).
+
+For grafer og komplekse figurer (f.eks. med flere paneler) kan det redigeres en overskrift som gir en form av oppsummering eller konklusjon basert på hele innholdet (se Figur 4).
+
+
+Figur 3. Disseksjon av rotte (Rattus norvegicus).
+
+
+Figur 4. Stolpediagrammet viser antall bakterier (kim) per KPGA-skål per time i forskjellige lokaliteter på BIO.
+
+
+### Metodologiske detaljer
+
+En figur kan avbilde dyr eller strukturer kun ved bruk av spesielle metoder eller utstyr og dette er viktig informasjon som bør legges til i beskrivelsen.
+Det kan informeres for eksempel om:
+
+- hvilken forstørrelse som ble brukt for å ta bildet (f.eks. 4x, 100x)
+- hvilket utstyr som ble brukt for å ta bildet (f. eks. kamera, lysmikroskop, elektronmikroskop, laser konfokalmikroskop, (se Figur 5)),
+- hvilken metode som ble brukt for å fremvise detaljer eller strukturer (f. eks. farging, disseksjon, (se Figur 3)),
+- hva slags verdier/statistikk som representeres hvis figuren er et diagram (f. eks. gjennomsnitt, median, (se Figur 6)), og spesielt hva slags data som brukes for å vise error bars (usikkerhetsstolpe)
+
+Figur 5. Elektronmikroskopi (SEM) bilde av Saccharomyces cerevisiae.  Kredittering: Mogana Das Murtey og Patchamuthu Ramasamy, CC BY-SA 3.0 (unmodified).
+
+
+Figur 6. Stolpediagrammet viser antall bakterier (kim) per KPGA-skål per time i forskjellige lokaliteter på BIO. Diagrammet viser gjennomsnitt og standardfeil.
+
+
+### Tid og lokalitet (for foto og tegninger)
+
+Det kan være nyttig å presisere hvor og når et bilde ble tatt.
+Denne informasjonen er brukbar for eksempel når utseende av et dyr endrer seg gjennom årstidene (se Figur 7 og 8), når størrelsen på en plante varierer avhengig av lokaliteten eller høyden, osv.
+
+
+Figur 7. Hvitrev i sommerpels på Svalbard. Kredittering Michael Haferkamp. CC BY-SA 3.0 (unmodified).
+
+
+Figur 8. Hvitrev i vinterpels. Kredittering: Jonatan Pie. CC0 1.0.
+
+
+
+### Kredittering, opphavsrett
+
+Alle illustrasjoner eller deler av illustrasjoner som du har ikke laget selv skal krediteres med navnet på den som har tatt bildet eller laget illustrasjonen/tegningen/diagrammet.
+Om du har hentet noe fra nettet, fra en bok eller et annet media, så må du først sjekke at du har nok rettigheter til å gjøre det.
+Hvis du har rettighetene, så må du skrive det i figurteksten ("Bildet er hentet fra [URL/firma/tidsskrift/media] med tillatelse av...").
+
+Det finnes millioner av bilder og film lisensiert under Creative Commons (CC).
+Avhengig av lisensen, skal du få lov til å bruke, dele, modifisere bilder til private eller kommersielle formål... helt gratis.
+Sjekk hva CC lisensen tillater, og hvordan du skal kreditere bildet som du bruker (ofte er det bare å oppgi navnet til den som har laget materiale, og lenke til CC lisensen, (se Figur 10)).
+Sjekk her for mer info.
+
+OGSå På EGNE BILDER SKAL MAN LEGGE TILL EN CC-XX!!!
+
+
+Figur 9. Disseksjon av rotte (Rattus norvegicus). Kreditering: Jonathan Soulé
+
+
+Figur 10. Fjell rev (Vulpes lagopus). Kreditering: Becker1999 (Paul and Cathy), Creative Commons CC BY 2.0
+
+
+
+### Formatering av figur og tabell tekst
+
+Figurteksten plasseres vanligvis under figuren, bør bruke hele bredden av figuren, men skal ikke overstige den.
+Hvis figuren er relativt liten, kan figurteksten plasseres ved siden av figuren.
+For tabeller skal teksten plasseres ovenfor tabellen.
+
+???Bruk fet skrift hvis du ønsker å fremheve både figurnummeret og overskriften, og kursiv for å fremheve enkelt ord i figurteksten.
+
+Bruk samme skrift typen som brødteksten.
+
+Pass på at figurteksten er lesbar og bruk gjerne samme størrelsen enn brødteksten, eller én størrelse mindre.
+
+Hvis figuren er fordelt i flere paneler, skal hver panel nevnes med en bokstav.
+Den øverste venstre panelen får bokstaven A, og skal refereres til som Figur 1A i brødteksten.
+Deretter må hver panel fullstendig beskrives i figurteksten.
+
+ADD SOME CODE TO HELP WITH THIS???
+PATCHWORK
