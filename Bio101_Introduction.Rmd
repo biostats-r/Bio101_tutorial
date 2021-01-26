@@ -122,7 +122,7 @@ Gjennomsnitt beregnes med å summere alle verdiene av en variable og dele med an
 
 La oss si vi har en populasjon med fisker i det Lille Lungårsvannet og vi er interessert å finne ut gjennomsnittlig lengde på disse fiskene.
 Vi drar på en fisketur, og fisker hundre fisker og måler kroppslengden på alle.
-Nå deler vi disse forskjellige lengdene i lengde klasser og i et histogramm kan vi vise alle lengde klassene på x-aksen og antall, altså hvor mange ganger en hvis lengde forekommer på y-aksen (see figuren nedenfor).
+Nå deler vi disse forskjellige lengdene i lengde klasser og i et **histogramm** kan vi vise alle lengde klassene på x-aksen og antall, altså hvor mange ganger en hvis lengde forekommer på y-aksen (see figuren nedenfor).
 
 
 ```{r example_data, eval=TRUE, echo=FALSE}
@@ -139,7 +139,7 @@ ggplot(dat, aes(x = var)) +
 
 ```
 
-For å beregne gjennomsnitt så teller vi alle lengdene sammen og deler med antall fisker.
+For å beregne **gjennomsnitt** så teller vi alle lengdene sammen og deler med antall fisker.
 I dette tilfelle er gjennomsnitt 15 cm og er markert med en røde strek i figuren.
 
 
@@ -200,6 +200,7 @@ Her er to datasett med kroppslengder av fisker som begge har en gjennomsnitt på
 Vi kan se tydelig at fordelingen av dataene, altså antall lengde verdier i hver klasse er forskjellig.
 I det første datasettet har vi få lengde klasser med mange verdier (tett historamm), mens i det andre datasettet har vi mange lengder klasser med få verdier (brei histogramm).
 Denne spredningen i dataene kalles **standard avviket** og gir verdienes gjennomsnittlige avstand fra gjennomsnittet.
+I figuren har vi tegnet en standard avvik med den røde streken.
 
 ```{r variability-data, eval=TRUE, echo=FALSE}
 
@@ -227,7 +228,7 @@ $$sd = \frac{\sqrt{(x_1 - \hat{y})^2 + (x_2 - \hat{y})^2 + (x_3 - \hat{y})^2 + \
 
 $x_1$ og $x_2$ osw er forskjellige tall fra en variable, for eksempel de forskjellige lengdene fra fiskene.
 $x_n$ betyr at det kan være n antall lengder.
-$\hat{y}$ er estimert gjennomsnitt og $n$ er antall fisker.
+$\hat{y}$ er det estimerte gjennomsnittet og $n$ er antall fisker.
 
 Hvis dette gikk litt for fort kan du se denne video som forklarer standard avvik i mer detalje:
 
@@ -246,19 +247,18 @@ Hvordan kan vi generalisere standard avvik for hele populasjonen?
 Hvis vi hadde målt lengden på 100 tilfeldige fisker i det Lille Lungårsvannet flere ganger, hadde gjennomsnitt hvært litt forskjellig hver gang.
 Dette kalles for prøvemiddel (*sampling distribution of the mean*).
 Variansen av disse gjennomsnittene fra de forskjellige prøvene kan beregnes med standard avvik fra de forskjellige prøvene og dette kalles **standard feil av det estimerte gjennomsnittet**.
-(This variance between the means of different samples can be estimated by the standard deviation of this sampling distribution and it is the standard error of the estimate of the mean.)
 
 Dette er litt forvirrende!
-Standard feil er en slags standard avvik i forskjellige verdier av prøvens gjennomsnitt. 
-Kort sagt er standardfeilen i en statistikk ikke noe annet enn standardavviket i samplingsfordelingen.
+Standard feil av gjennomsnittet er en slags standard avvik i forskjellige verdier av prøvens gjennomsnitt. 
+Kort sagt er standardfeilen av gjennomsnittet i en statistikk er ikke noe annet enn standardavviket i samplingsfordelingen.
 
-Formelen for standard feil er:
+Formelen for standard feil av gjennomsnittet er:
 $se = sd / sqrt(n)$
 
 *sd* er populasjonsstandardavvik og *n* er antall observasjoner.
 
 Hvis vi vil si noe om spredningen av en variabel kan vi bruke standard avvik.
-Men hvis vi vil si noe om usikkerheten rundt en estimert gjennomsnitt, så bruker vi standard feil.
+Men hvis vi vil si noe om usikkerheten rundt en estimert gjennomsnitt, så bruker vi standard feil av gjennomsnittet.
 
 
 #### Standard avvik og feil i R
@@ -276,7 +276,7 @@ sd(kimtall$antall_per_ml)
 
 ```
 
-For å beregne **standard feil** trenger vi flere ting:
+For å beregne **standard feil av gjennomsnittet** trenger vi flere ting:
 
 - standard avvik av antall bakterier, den har vi allerede beregnet lenger oppe.
 - antall observasjoner *n*
@@ -308,7 +308,7 @@ sd(kimtall$...) / sqrt(length(...))
 
 ## Deskriptiv statistikk - lage en tabell
 
-La oss nå sette alt sammen og beregne gjennomsnitt og standard feil for kimtall i de tre forskjellige vann.
+La oss nå sette alt sammen og beregne gjennomsnitt og standard feil av gjennomsnittet for kimtall i de tre forskjellige vann.
 Vi skal lage en tabell som vi seinere kan bruke i en rapport, altså vi vil ha en ryddig tabell!
 
 Vi må først si noen ord om `tidyverse`.
@@ -390,6 +390,9 @@ kimtall %>%
 ```
 
 Er ikke dette en fin og ryddig tabell?
+
+Tabell og figur tekst er ganske viktig.
+[Her](https://biostats.w.uib.no/hvordan-skrive-figurtekst/){target="_blank"} er litt mer informasjon om dette, hvis du aldri har skrevet en tekst til en tabell eller figur.
 
 
 ## Data visualisering med boksplott
