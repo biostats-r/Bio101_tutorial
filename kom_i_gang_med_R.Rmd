@@ -108,7 +108,7 @@ Pass på at du velger den versjonen som passer din maskin.
 ## Last ned filene
 
 Nå skal vi hente de filene som du trenger til øvelsen.
-Klikk på [denne lenken](https://github.com/biostats-r/Bio101_tutorial/archive/main.zip){target="_blank"} for å nedlaste filen `Bio101_tutorial-main.zip`.
+Klikk på [denne lenken](https://github.com/biostats-r/Bio101_tutorial/archive/main.zip){target="_blank"} for å laste ned filen `Bio101_tutorial-main.zip`.
 Åpne denne filen og ekstraher den hele mappen på harddisken din.
 Velg et lurt sted, f.eks `.\Mine dokumenter\BIO101\` eller lignende.
 
@@ -261,16 +261,16 @@ Derfor anbefales det på det sterkeste å *alltid skrive kode i et skript*, ikke
 
 # Lær å kode med appen
 
-I prosjektmappen til denne øvelsen finner du filen `Bio101-Introduction.Rmd`.
+I prosjektmappen til denne øvelsen finner du filen `start_intro_tutorial.R`.
 Klikk på den i fanen `Files`.
 Filen åpnes direkte i en ny fane opp til venstre.
-I menyen øverst i fanen, klikk på `Run Document` (se Figur \@ref(fig:rstudio-run-intro)).
+I menyen øverst i fanen, klikk på `Source` (se Figur \@ref(fig:rstudio-run-intro)).
 
 ```{r rstudio-run-intro, echo = FALSE, fig.cap="_Start appen ved å trykke på_ Run document.", out.width="100%"}
 knitr::include_graphics("Pics/Bio101-Introduction.png")
 ```
 
-Etter noen sekunder dukker det opp et nytt vindu med en app (se Figur \@ref(fig:rstudio-app)).
+Etter noen sekunder åpner seg et nytt vindu i en internett browser (se Figur \@ref(fig:rstudio-app)).
 Appen inneholder bakgrunnsinformasjon om alt du bør vite for å lage figurene i rapporten. 
 Du skal lese og lære om datasettet, gjennomsnitt og variabilitet, koden som lar deg regne dem, koden som lar deg lage tabeller, tegne plot, osv.  
 
