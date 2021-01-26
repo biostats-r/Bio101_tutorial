@@ -29,7 +29,7 @@ Beskriv hvordan dataene ble samlet og analysert.
 
 ## Resultat
 
-Oppsummer resultatene i en tabell som viser gjennomsnitt og standard feil til koliforme baketerie i de tre 3 vann.
+Oppsummer resultatene i en tabell som viser gjennomsnitt og standard feil til koliforme baketerie i de tre vann.
 
 ```{r tabel, eval=TRUE, echo=FALSE}
 
