@@ -1,5 +1,5 @@
 ---
-title: "Legg til titel her"
+title: "Legg til tittel her"
 author: "Legg til navn på alle forfattere her"
 date: "Legg til dato hvis du ønsker"
 output: html_document
@@ -11,66 +11,50 @@ knitr::opts_chunk$set(echo = TRUE)
 
 library("tidyverse")
 
-# les inn datasettene
+# last inn datasettet
 koliforme <- read_delim(file = "data/Koliforme.csv", delim = ",")
-vekst <- read_delim(file = "data/Vekst.csv", delim = ",")
 
 ```
 
 ## Introduksjon
 
-Skriv en introduksjon med hovedspørsmål og forventningene?
+Skriv en introduksjon med hovedspørsmål og forventningene
 
 ## Metode
 
 Beskriv hvordan dataene ble samlet og analysert.
 
 
-
 ## Resultat
 
-Oppsummer resultatene i en tabell som viser gjennomsnitt og standard feil til koliforme baketerie i de tre vann.
+Oppsummer resultatene i en tabell som viser gjennomsnitt og standardfeil til koliforme bakterie i de tre vannene.
 
-```{r tabel, eval=TRUE, echo=FALSE}
+```{r tabell, eval=TRUE, echo=FALSE}
 
 koliforme %>% 
-  group_by(vann) %>% 
-  summarise(gjennomsnitt = mean(antall_per_ml),
-            standardfeil = sd(antall_per_ml) / sqrt(n())) %>% 
+  group_by(...) %>% 
+  summarise(gjennomsnitt = mean(...),
+            standardfeil = sd(...) / sqrt(n())) %>% 
   knitr::kable(digits = 1,
-               caption = "Tabell 1: beskriv tabellen i en settning.")
+               caption = "Tabell 1: beskriv tabellen i en setning.")
 
 ```
 
 
-Lag en boksplott som viser antall bakterier per vann og bakterie type.
-Med argumentet ```fig.cap``` på toppen av den neste code chunk kan du legge til en figur tekst og beskrive hva dette plottet viser.
+Lag et boksplott som viser antall bakterier per vann.
+Med argumentet ```fig.cap``` på toppen av den neste code chunk kan du legge til en figurtekst og beskrive hva dette plottet viser.
 
 ```{r boksplot, eval=TRUE, echo=FALSE, fig.cap="..."}
 
-ggplot(koliforme, aes(x = vann, y = antall_per_ml)) +
+ggplot(koliforme, aes(x = ..., y = ...)) +
   geom_boxplot() +
-  labs(x = NULL, y = "Antall bakterier per ml")
-
-```
-
-
-Lag en vekstkurve med standardfeil for hver observasjon.
-Beskriv også her i argmuentet ```fig.cap``` hva dette plottet viser.
-
-```{r vekstkurve, eval=TRUE, echo=FALSE, fig.cap="..."}
-
-ggplot(vekst, aes(x = tid, y = celletall, ymin = celletall - standardfeil, ymax = celletall + standardfeil)) +
-  geom_point() +
-  geom_line() +
-  geom_errorbar() + 
-  labs(x = "Tid i dager", y = "Celletall")
+  labs(x = NULL, y = "Antall bakterier per mL")
 
 ```
 
 
 Beskriv resultatene med ord.
-Sammenlign gjennomsnitt og spredning av data i de tre vann.
+Sammenlign gjennomsnitt og spredning av data i de tre vannene.
 
 
 ## Diskusjon
